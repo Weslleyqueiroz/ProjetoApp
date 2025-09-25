@@ -11,6 +11,7 @@ import{ useNavigation , NavigationProp} from '@react-navigation/native';
 export default function Login(){
 
     const navigation = useNavigation<NavigationProp<any>>();
+    
     const[email,setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -20,8 +21,11 @@ export default function Login(){
                 return Alert.alert('Atenção','Informe os campos obrigatórios')
             }
 
-            navigation.navigate('BottomRoutes')
+            navigation.navigate("BottomRoutes")
+
             console.log('logado com sucesso!')
+
+
         } catch (error) {
             console.log(error)
             

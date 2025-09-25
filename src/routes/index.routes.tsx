@@ -8,24 +8,20 @@ export default function Routes() {
 
     return(
         <Stack.Navigator
-            initialRouteName="Login"
-            screenOptions={{
-                headerShown: false
-            }}
+            
         >
         
            <Stack.Screen
-           name ="Login"
-           component={Login}
+                name ="Login"
+                component={Login}
            />
 
            <Stack.Screen
-           name ="BottomRoutes"
-           component={BottomRoutes}
+                name ="BottomRoutes"
+                component={BottomRoutes}
            /> 
-
-
         </Stack.Navigator>
+        
     )
 
 }

@@ -8,7 +8,7 @@ const Tab = createBottomTabNavigator();
 export default function bottomRoutes(){
     return(
         <Tab.Navigator>
-            <Tab.Screen name="list" component={list}
+            <Tab.Screen name="list" component={List}
         />
        
         

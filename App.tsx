@@ -1,7 +1,8 @@
+
 import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Login from './src/pages/login';
+
+import { StyleSheet } from 'react-native';
+
 
 
 import Routes from './src/routes/index.routes';
@@ -17,4 +18,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1
+  }
 });
