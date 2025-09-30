@@ -1,19 +1,20 @@
 
 import 'react-native-gesture-handler';
-
 import { StyleSheet } from 'react-native';
-
-
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Routes from './src/routes/index.routes';
 import { NavigationContainer } from '@react-navigation/native';
+import { AuthProviderList } from './src/context/AuthContextList';
 
 export default function App() {
   return (
-      <NavigationContainer>
-        <Routes/>
-      </NavigationContainer>
-    
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProviderList>
+        <NavigationContainer>
+          <Routes />
+        </NavigationContainer>
+      </AuthProviderList>
+    </GestureHandlerRootView>
   );
 }
 
