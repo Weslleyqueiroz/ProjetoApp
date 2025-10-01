@@ -7,6 +7,7 @@ type Props = {
 export  function Loading({...rest}:Props){
     if(!rest.loading)return <></>
     return(
+      
       <View style={style.container}>
         <ActivityIndicator  color={'white'} size={'large'}/>
       </View>

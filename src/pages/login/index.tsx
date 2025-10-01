@@ -58,7 +58,9 @@ export default function Login() {
                     <Text style={style.textButton}>Entrar</Text>
                 </TouchableOpacity>
             </View>
-            <Text style={style.textConta}>Não tem conta? <Text style={style.textContaCriar}>Clique aqui</Text></Text>
+            {<TouchableOpacity onPress={() => navigation.replace('Cadastro')}>
+                <Text style={style.textConta}>Não tem conta? <Text style={style.textContaCriar}>Clique aqui</Text></Text>
+            </TouchableOpacity>}
         </View>
     );
 }

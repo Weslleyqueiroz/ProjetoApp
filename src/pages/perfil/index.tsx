@@ -3,6 +3,8 @@ import { View, Text, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Perfil() {
+
+  
   const [servicos, setServicos] = useState([]);
 
   useEffect(() => {
