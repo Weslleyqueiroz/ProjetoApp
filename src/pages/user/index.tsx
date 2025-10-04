@@ -50,7 +50,7 @@ export default function Cadastro() {
                     <TextInput
                         style={style.input}
                         value={email}
-                        onChangeText={setEmail}
+                        onChangeText={setConfirmEmail}
                     />
                     <MaterialIcons name="email" size={20} color={themas.colors.gray} />
                 </View>
@@ -69,7 +69,7 @@ export default function Cadastro() {
                 <View style={style.icone}>
                     <TextInput
                         style={style.input}
-                        onChangeText={setPassword}
+                        onChangeText={setConfirmPassword}
                     />
                     <MaterialIcons name='remove-red-eye' size={20} color={themas.colors.gray} />
                 </View>
@@ -79,7 +79,7 @@ export default function Cadastro() {
                     <Text style={style.textButton}>Cadastrar</Text>
                 </TouchableOpacity>
             </View>
-            {<TouchableOpacity onPress={() => navigation.replace('Cadastro')}>
+            {<TouchableOpacity onPress={() => navigation.replace('Login')}>
                             <Text style={style.textConta}>Não tem conta? <Text style={style.textContaCriar}>Clique aqui</Text></Text>
             </TouchableOpacity>}
         </View>

@@ -4,6 +4,7 @@ import Login from "../pages/login";
 import BottomRoutes from './Bottom.routes';
 import Agendar from '../pages/agendar';
 import Servicos from '../pages/servicos';
+import Cadastro from "../pages/user";
 
 export default function Routes() {
     const Stack = createNativeStackNavigator();
@@ -36,6 +37,9 @@ export default function Routes() {
              name ="Agendar"
              component={Agendar}
          />
+             <Stack.Screen name="Cadastro" 
+                 component={Cadastro}
+                 />
         </Stack.Navigator>
         
     )

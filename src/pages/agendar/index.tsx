@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, Button, Platform, TouchableOpacity, Alert } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const horarios = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
 
 export default function Agendar() {
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const route = useRoute();
-  const { servico } = route.params as any;
+  const { servico } = (route.params || {}) as any;
   const [date, setDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [horaSelecionada, setHoraSelecionada] = useState('');
