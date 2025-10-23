@@ -1,4 +1,3 @@
-
 import 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,7 +10,7 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProviderList>
         <NavigationContainer>
-          <Routes />
+          <Routes/>
         </NavigationContainer>
       </AuthProviderList>
     </GestureHandlerRootView>

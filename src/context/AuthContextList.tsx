@@ -242,16 +242,16 @@ export const AuthProviderList = (props: { children: any; }) => {
                                     labelStyle={styles.label} 
                                     editable={false}
                                     value={selectedDate.toLocaleDateString()}
-                                    onPress={() => setShowDatePicker(true)} 
+                                    onPressIn={() => setShowDatePicker(true)}
                                 />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setShowDatePicker(true)}   style={{ width: 100 }}>
+                            <TouchableOpacity onPressIn={() => setShowTimePicker(true)}   style={{ width: 100 }}>
                                 <Input 
                                     title="Hora limite:" 
                                     labelStyle={styles.label} 
                                     editable={false}
                                     value={selectedTime.toLocaleTimeString()}
-                                    onPress={() => setShowTimePicker(true)}
+                                    onPressIn={() => setShowTimePicker(true)}
                                 />
                             </TouchableOpacity>
                         </View>
@@ -263,10 +263,10 @@ export const AuthProviderList = (props: { children: any; }) => {
                                 setShow={setShowDatePicker} 
                             />
                             <CustomDateTimePicker 
-                                type='time' // Mude para 'time' aqui
+                                type='time'
                                 onDateChange={handleTimeChange} 
-                                show={showTimePicker} // Use showTimePicker aqui
-                                setShow={setShowTimePicker} // Use setShowTimePicker aqui
+                                show={showTimePicker} 
+                                setShow={setShowTimePicker} 
                             />
 
                         <View style={styles.containerFlag}>

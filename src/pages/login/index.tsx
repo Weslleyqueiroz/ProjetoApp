@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { Text, View, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, Image, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { style } from "./styles";
-import { MaterialIcons } from '@expo/vector-icons';
 import Logo from '../../assets/logo.jpg';
 import { themas } from "../../global/themes";
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { authService } from '../../services/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Login() {
     const navigation = useNavigation<StackNavigationProp<any>>();
-    const [email, setEmail] = useState('weslley');
-    const [password, setPassword] = useState('12345');
-    const [showPassword, setShowPassword] = useState(true);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
     async function getLogin() {
@@ -20,9 +22,19 @@ export default function Login() {
             if (!email || !password) {
                 return Alert.alert('Atenção', 'Informe os campos obrigatórios!');
             }
-            navigation.replace('BottomRoutes');
-        } catch (error) {
-            console.log(error);
+
+            const response = await authService.login({ email, password }) as { data: { token: string } };
+
+            if (response.data.token) {
+                navigation.replace('BottomRoutes');
+            }
+
+        } catch (error: any) {
+            console.log('Erro na requisição de login:', error);
+            Alert.alert(
+                'Erro no login', 
+                error.response?.data?.message || 'Não foi possível conectar-se ao servidor.'
+            );
         } finally {
             setLoading(false);
         }
@@ -41,6 +53,8 @@ export default function Login() {
                         style={style.input}
                         value={email}
                         onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
                     />
                     <MaterialIcons name="email" size={20} color={themas.colors.gray} />
                 </View>
@@ -49,18 +63,36 @@ export default function Login() {
                     <TextInput
                         style={style.input}
                         onChangeText={setPassword}
+                        secureTextEntry={!showPassword}
+                        value={password}
                     />
-                    <MaterialIcons name='remove-red-eye' size={20} color={themas.colors.gray} />
+                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                        <MaterialIcons 
+                            name={showPassword ? 'visibility' : 'visibility-off'} 
+                            size={20} 
+                            color={themas.colors.gray} 
+                        />
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={style.boxBottom}>
-                <TouchableOpacity style={style.button} onPress={getLogin}>
-                    <Text style={style.textButton}>Entrar</Text>
+                <TouchableOpacity 
+                    style={[style.button, loading && { opacity: 0.7 }]} 
+                    onPress={getLogin}
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <ActivityIndicator color="#FFF" />
+                    ) : (
+                        <Text style={style.textButton}>Entrar</Text>
+                    )}
                 </TouchableOpacity>
             </View>
-            {<TouchableOpacity onPress={() => navigation.replace('Cadastro')}>
-                <Text style={style.textConta}>Não tem conta? <Text style={style.textContaCriar}>Clique aqui</Text></Text>
-            </TouchableOpacity>}
+            <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
+                <Text style={style.textConta}>
+                    Não tem conta? <Text style={style.textContaCriar}>Clique aqui</Text>
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 }

@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+interface Servico {
+  id: string;
+  nome: string;
+  preco: number;
+  data: string;
+  hora: string;
+}
+
 export default function Perfil() {
 
   
-  const [servicos, setServicos] = useState([]);
+  const [servicos, setServicos] = useState<Servico[]>([]);
 
   useEffect(() => {
     const carregarServicos = async () => {
