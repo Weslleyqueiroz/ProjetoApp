@@ -9,7 +9,7 @@ const services = [
   { id: '2', nome: 'Barba', preco: 20 },
   { id: '3', nome: 'Sobrancelha', preco: 15 },
 ];
-let appointments = [];
+let appointments: Array<{ id: string, userEmail: string, serviceId: string, date: string, time: string }>  = [];
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;

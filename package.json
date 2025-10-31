@@ -33,5 +33,18 @@
     "@types/react": "~19.0.10",
     "typescript": "~5.8.3"
   },
-  "private": true
+  "private": true,
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Weslleyqueiroz/ProjetoApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Weslleyqueiroz/ProjetoApp/issues"
+  },
+  "homepage": "https://github.com/Weslleyqueiroz/ProjetoApp#readme"
 }
