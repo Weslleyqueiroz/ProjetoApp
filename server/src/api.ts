@@ -28,6 +28,7 @@ app.post('/login', (req, res) => {
 
 app.post('/register', (req, res) => {
   const { name, email, password } = req.body;
+  
   if (!name || !email || !password) return res.status(400).json({ message: 'Campos obrigatórios.' });
   
   return res.status(201).json({ message: 'Registro realizado', user: { name, email } });
