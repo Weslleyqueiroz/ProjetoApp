@@ -23,10 +23,13 @@ export default function Login() {
                 return Alert.alert('Atenção', 'Informe os campos obrigatórios!');
             }
 
-            const response = await authService.login({ email, password }) as { data: { token: string } };
-
-            if (response.data.token) {
+            const response = await authService.login({ email, password }); 
+            if (response.token) {
+                await AsyncStorage.setItem('token', response.token);
+                await AsyncStorage.setItem('user', JSON.stringify(response.user));
                 navigation.replace('BottomRoutes');
+            } else {
+                Alert.alert('Erro', 'Token não recebido');
             }
 
         } catch (error: any) {
