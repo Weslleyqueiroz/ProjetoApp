@@ -1,4 +1,5 @@
-const BASE = 'http://localhost:8080'; 
+// fetchApi.js - Versão super simples
+const BASE = 'http://10.0.2.2:5500'; // Funciona para emulador Android
 
 export async function get(path: string) {
   const res = await fetch(`${BASE}${path}`);
@@ -13,4 +14,5 @@ export async function post(path: string, body: any) {
   });
   return res.json();
 }
+
 export default { get, post };
