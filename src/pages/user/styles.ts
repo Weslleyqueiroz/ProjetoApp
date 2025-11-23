@@ -3,7 +3,6 @@ import { themas } from "../../global/themes";
 
 export const style = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: "center",
         paddingHorizontal: 20,
         backgroundColor: '#fff'
@@ -59,7 +58,7 @@ export const style = StyleSheet.create({
         borderRadius: 40,
     },
     button: {
-        height: 50,
+        height: 30,
         width: 250,
         alignItems: 'center',
         justifyContent: 'center',

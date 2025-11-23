@@ -16,7 +16,10 @@ export const register = async (req: Request, res: Response) => {
     const hash = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
-      data: { name, email, password: hash, role: role || "client" },
+      data: { name, 
+        email,
+         password: hash, 
+         role: role || "client" },
     });
 
     const token = jwt.sign(
@@ -30,7 +33,7 @@ export const register = async (req: Request, res: Response) => {
       token,
     });
   } catch (err) {
-    console.error(err);
+   console.error("ERRO CRÍTICO NO REGISTRO DO PRISMA:", JSON.stringify(err, null, 2)); 
     return res.status(500).json({ error: "Erro no servidor" });
   }
 };

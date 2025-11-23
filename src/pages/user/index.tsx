@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Text, View, Image, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+// Importamos o ScrollView aqui 
+import { Text, View, Image, TextInput, TouchableOpacity, Alert, ActivityIndicator, ScrollView } from 'react-native'; 
 import { style } from "./styles";
 import { MaterialIcons } from '@expo/vector-icons';
 import Logo from '../../assets/logo.jpg';
@@ -25,36 +26,50 @@ export default function Cadastro() {
             
             // ✅ VALIDAÇÕES
             if (!name || !email || !password) {
-                return Alert.alert('Atenção', 'Informe todos os campos obrigatórios!');
+                Alert.alert('Atenção', 'Informe todos os campos obrigatórios!');
+                return;
             }
             
             if (email !== confirmEmail) {
-                return Alert.alert('Atenção', 'Os e-mails não coincidem!');
+                Alert.alert('Atenção', 'Os e-mails não coincidem!');
+                return;
             }
             
             if (password !== confirmPassword) {
-                return Alert.alert('Atenção', 'As senhas não coincidem!');
+                Alert.alert('Atenção', 'As senhas não coincidem!');
+                return;
             }
 
-           
-            const response = await authService.register({ 
+            // 🛑 CORREÇÃO PRINCIPAL: Esperar 'data' do Axios
+            const { response } = await authService.register({ 
                 name, 
                 email, 
                 password 
             });
 
-            if (response.success) {
+            // 🛑 CORREÇÃO: Desestruturar token e user da resposta do Back-end
+            const { token, user } = response;
+            
+            if (token && user) {
+                // ✅ Salva o token e o usuário no AsyncStorage
+                await AsyncStorage.setItem('@barber_app:token', token);
+                await AsyncStorage.setItem('@barber_app:user', JSON.stringify(user));
+                
                 Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-                navigation.replace('Login');
+                // Redireciona para o Login, ou diretamente para a rota principal se quiser logar automaticamente
+                navigation.replace('Login'); 
+                return;
             } else {
-                Alert.alert('Erro', response.message || 'Erro no cadastro');
+                // Se o Back-end retornou 200, mas sem token/user (resposta incompleta)
+                Alert.alert('Erro', 'Resposta do servidor incompleta. Tente novamente.');
             }
 
         } catch (error: any) {
             console.log('Erro no cadastro:', error);
+            // Captura o erro 'error' do Back-end (ex: Email já cadastrado)
             Alert.alert(
                 'Erro no cadastro', 
-                error.response?.data?.message || 'Não foi possível realizar o cadastro.'
+                error.response?.data?.error || 'Não foi possível realizar o cadastro.'
             );
         } finally {
             setLoading(false);
@@ -62,10 +77,13 @@ export default function Cadastro() {
     }
 
     return (
-        <View style={style.container}>
+
+        <ScrollView contentContainerStyle={style.container} keyboardShouldPersistTaps="handled">
+            
             <View style={style.boxTop}>
                 <Text style={style.text}>Cadastre-se!</Text>
             </View>
+            
             <View style={style.boxMid}>
                 <Text style={style.tittleInput}>Nome completo</Text>
                 <View style={style.icone}>
@@ -159,6 +177,7 @@ export default function Cadastro() {
                     Já tem conta? <Text style={style.textContaCriar}>Faça login</Text>
                 </Text>
             </TouchableOpacity>
-        </View>
+            
+        </ScrollView>
     );
 }

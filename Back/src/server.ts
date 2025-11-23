@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", (req, res, next) => {
-  // simple health
+  // simple healthclear
   if (req.path === "/") return res.json({ message: "Backend funcionando" });
   next();
 });

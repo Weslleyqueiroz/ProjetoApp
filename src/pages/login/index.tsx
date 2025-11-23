@@ -5,7 +5,7 @@ import Logo from '../../assets/logo.jpg';
 import { themas } from "../../global/themes";
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { authService } from '../../services/auth';
+import { authService } from '../../services/auth'; // Importa o serviço de autenticação
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -23,20 +23,37 @@ export default function Login() {
                 return Alert.alert('Atenção', 'Informe os campos obrigatórios!');
             }
 
+            // 🛑 CORREÇÃO: authService.login() agora retorna DIRETAMENTE { token, user }
             const response = await authService.login({ email, password }); 
-            if (response.token) {
-                await AsyncStorage.setItem('token', response.token);
-                await AsyncStorage.setItem('user', JSON.stringify(response.user));
-                navigation.replace('BottomRoutes');
+          
+            // Desestrutura diretamente da resposta do serviço (que é {token, user})
+            const { token, user } = response; 
+            
+           
+            if (token && user) {
+              
+                await AsyncStorage.setItem('@barber_app:token', token);
+                await AsyncStorage.setItem('@barber_app:user', JSON.stringify(user));
+                
+                // Mensagem de sucesso opcional
+                Alert.alert('Sucesso', `Bem vindo, ${user.name}!`);
+       
+                navigation.replace('BottomRoutes'); 
+                return; // Sai da função após o sucesso
             } else {
-                Alert.alert('Erro', 'Token não recebido');
+      
+                Alert.alert('Erro', 'Resposta do servidor incompleta. Tente novamente.');
             }
 
         } catch (error: any) {
             console.log('Erro na requisição de login:', error);
+            
+            // 🛑 CORREÇÃO: Tratamento de erro robusto. Acessa 'error.response' apenas se existir.
+            const errorMessage = error.response?.data?.error || error.response?.data?.message || 'Não foi possível conectar-se ao servidor. Verifique suas credenciais.';
+            
             Alert.alert(
                 'Erro no login', 
-                error.response?.data?.message || 'Não foi possível conectar-se ao servidor.'
+                errorMessage
             );
         } finally {
             setLoading(false);
@@ -58,6 +75,7 @@ export default function Login() {
                         onChangeText={setEmail}
                         keyboardType="email-address"
                         autoCapitalize="none"
+                        placeholder="seu@email.com" // Adicionado placeholder para clareza
                     />
                     <MaterialIcons name="email" size={20} color={themas.colors.gray} />
                 </View>
@@ -68,6 +86,7 @@ export default function Login() {
                         onChangeText={setPassword}
                         secureTextEntry={!showPassword}
                         value={password}
+                        placeholder="Digite sua senha" // Adicionado placeholder para clareza
                     />
                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                         <MaterialIcons 
