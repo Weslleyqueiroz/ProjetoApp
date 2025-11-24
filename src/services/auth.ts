@@ -1,26 +1,35 @@
-
-
 import api from './fetchApi';
 
 export const authService = {
-  
-  // 🛑 CORREÇÃO: Função login retorna response.data
   login: async (credentials: { email: string; password: string }) => {
     try {
-        const response = await api.post('/login', credentials);
-        return response.data; 
+      console.log('🔐 Enviando login:', credentials);
+      
+      // ✅ CORREÇÃO: api.post já retorna { token, user } diretamente
+      const data = await api.post('/login', credentials);
+      
+      console.log('✅ Login bem-sucedido:', data);
+      return data; // Já é { token, user }
+      
     } catch (error) {
-        throw error;
+      console.log('❌ Erro no authService.login:', error);
+      throw error;
     }
   },
 
-  // 🛑 CORREÇÃO: Função register retorna response.data
   register: async (credentials: { name: string; email: string; password: string }) => {
     try {
-        const response = await api.post('/register', credentials);
-        return response.data;
+      console.log('👤 Enviando cadastro:', credentials);
+      
+      // ✅ CORREÇÃO: api.post já retorna os dados diretamente
+      const data = await api.post('/register', credentials);
+      
+      console.log('✅ Cadastro bem-sucedido:', data);
+      return data; // Já é { token, user }
+      
     } catch (error) {
-        throw error;
+      console.log('❌ Erro no authService.register:', error);
+      throw error;
     }
   },
 };

@@ -40,25 +40,25 @@ export default function Cadastro() {
                 return;
             }
 
-            // 🛑 CORREÇÃO PRINCIPAL: Esperar 'data' do Axios
-            const { response } = await authService.register({ 
+            // 🛑 CORREÇÃO FINAL: Recebe a resposta COMPLETA (que já é {token, user} do authService)
+            const response = await authService.register({ 
                 name, 
                 email, 
                 password 
             });
 
-            // 🛑 CORREÇÃO: Desestruturar token e user da resposta do Back-end
+            // 🛑 CORREÇÃO: Desestrutura token e user DIRETAMENTE de 'response'
             const { token, user } = response;
             
             if (token && user) {
-                // ✅ Salva o token e o usuário no AsyncStorage
+                // ✅ Sucesso: Salva e NAVEGA
                 await AsyncStorage.setItem('@barber_app:token', token);
                 await AsyncStorage.setItem('@barber_app:user', JSON.stringify(user));
                 
                 Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-                // Redireciona para o Login, ou diretamente para a rota principal se quiser logar automaticamente
+                // Redireciona para o Login
                 navigation.replace('Login'); 
-                return;
+                return; // Importante para sair da função
             } else {
                 // Se o Back-end retornou 200, mas sem token/user (resposta incompleta)
                 Alert.alert('Erro', 'Resposta do servidor incompleta. Tente novamente.');
@@ -66,10 +66,15 @@ export default function Cadastro() {
 
         } catch (error: any) {
             console.log('Erro no cadastro:', error);
-            // Captura o erro 'error' do Back-end (ex: Email já cadastrado)
+            
+            // 🛑 CORREÇÃO: Tratamento de erro robusto para capturar erros do Axios ou outros
+            const errorMessage = error.response?.data?.error 
+                                || error.response?.data?.message 
+                                || 'Não foi possível realizar o cadastro. Tente novamente.';
+
             Alert.alert(
                 'Erro no cadastro', 
-                error.response?.data?.error || 'Não foi possível realizar o cadastro.'
+                errorMessage
             );
         } finally {
             setLoading(false);
@@ -77,7 +82,7 @@ export default function Cadastro() {
     }
 
     return (
-
+        // A CORREÇÃO DE LAYOUT: Usamos ScrollView para permitir rolagem
         <ScrollView contentContainerStyle={style.container} keyboardShouldPersistTaps="handled">
             
             <View style={style.boxTop}>
