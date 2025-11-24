@@ -1,4 +1,4 @@
-# ProjetoApp - Hairdresser/Barber Appointment App
+# ProjetoApp 
 
 ![TypeScript Badge](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![React Native Badge](https://img.shields.io/badge/React_Native-61DAFB?style=for-the-badge&logo=react&logoColor=white)
