@@ -1,4 +1,4 @@
-const BASE = 'http://192.168.100.38:5500';
+const BASE = 'http://10.111.80.146:5500';
 
 export async function post(path: string, body: any) {
   console.log('🔗 POST:', `${BASE}${path}`, body);
